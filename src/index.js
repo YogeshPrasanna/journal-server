@@ -2,15 +2,23 @@ require('./models/User')
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const authRoutes = require(`./routes/authRoutes`)
+
+const users = require(`./routes/api/users`)
+const profile = require(`./routes/api/profile`)
+const posts = require(`./routes/api/posts`)
+
 const requireAuth = require(`./middlewares/requireAuth`)
 
 const app = express();
 // const port = process.env.PORT || 3000;
 require('dotenv').config();
 
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-app.use(authRoutes)
+app.use('/api/users', users)
+// app.use('/api/profile', profile)
+// app.use('/api/posts', posts)
+
 const mongoUri = process.env.mongoURI
 mongoose.connect(mongoUri, {
     useNewUrlParser: true,
