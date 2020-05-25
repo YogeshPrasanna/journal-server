@@ -1,4 +1,5 @@
 require('./models/User')
+require('./models/Post')
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -17,6 +18,7 @@ require('dotenv').config();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use('/api/users', users)
+app.use('/api/posts', posts)
 
 app.use(passport.initialize());
 require('./config/passport')(passport);
