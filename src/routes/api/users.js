@@ -3,10 +3,21 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
 const gravatar = require('gravatar')
 const User = mongoose.model('User')
+const passport = require('passport')
+const validateSignupInput = require('../../validation/singup')
+const validateSigninInput = require('../../validation/signin')
+
 
 const router = express.Router();
 
 router.post(`/signup`, async (req, res) => {
+
+    const { errors, isValid } = validateSignupInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors)
+    }
+
     console.log(req.body)
     const { name, email, password } = req.body;
     const avatar = gravatar.url(email, {
@@ -18,9 +29,8 @@ router.post(`/signup`, async (req, res) => {
     await User.findOne({ email: req.body.email })
         .then(async user => {
             if (user) {
-                return res.status(400).json({
-                    email: 'Email already exists'
-                })
+                errors.email = "Email already exist"
+                return res.status(400).json(errors)
             } else {
                 try {
                     const user = new User({ name, email, avatar, password })
@@ -30,11 +40,11 @@ router.post(`/signup`, async (req, res) => {
                         userId: user._id
                     }, 'MY_SECRET_KEY')
 
-                    let username = user.name;
-                    let email = user.email;
-                    let avatar = user.avatar
-                    return res.json({ token, username, email, avatar })
+                    if (user) {
+                        let { id, name, email, avatar } = user;
+                        return res.json({ token, id, name, email, avatar })
 
+                    }
                 } catch (err) {
                     return res.status(422).send(err.message)
                 }
@@ -45,6 +55,12 @@ router.post(`/signup`, async (req, res) => {
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 
+    const { errors, isValid } = validateSigninInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors)
+    }
+
     if (!email || !password) {
         return res.status(422).json({ email: 'Must provide email ', password: 'must provide password' })
     }
@@ -52,7 +68,8 @@ router.post('/signin', async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-        return res.status(404).json({ email: 'Email not found' })
+        errors.email = "Email not found"
+        return res.status(404).json(errors)
     }
 
     try {
@@ -72,9 +89,16 @@ router.post('/signin', async (req, res) => {
 
         return res.json({ ...payload, token: `Bearer ${token}` })
     } catch (err) {
-        return res.status(400).send({ password: 'Inorrect Password' })
+        errors.password = "Incorrect password"
+        return res.status(400).json(errors)
     }
+})
 
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { _id, name, email, avatar } = req.user;
+    res.json({
+        _id, name, email, avatar
+    })
 })
 
 module.exports = router

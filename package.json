@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js"
   },
-  "author": "",
+  "author": "Yogesh Prasanna",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
@@ -16,6 +16,9 @@
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.9",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "validator": "^13.0.0"
   }
 }
