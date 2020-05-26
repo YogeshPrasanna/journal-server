@@ -18,11 +18,14 @@ const PostSchema = new mongoose.Schema({
         happy: { type: Boolean },
         sad: { type: Boolean },
         funny: { type: Boolean },
-        travel: { type: Boolean },
+        tired: { type: Boolean },
         bored: { type: Boolean },
         love: { type: Boolean },
         blessed: { type: Boolean },
         crying: { type: Boolean },
+        angry: { type: Boolean },
+        calm: { type: Boolean },
+
     },
     postHashtags: {
         type: [String],
