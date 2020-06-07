@@ -27,6 +27,7 @@ require('./config/passport')(passport);
 
 const mongoUri = process.env.mongoURI
 mongoose.connect(mongoUri, {
+    useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true
 });

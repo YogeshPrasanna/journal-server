@@ -12,8 +12,10 @@ const validatePostInput = require('../../validation/post')
 // @desc  Get posts
 // @access Public
 
-router.get('/', (req, res) => {
-    Post.find()
+router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+
+
+    Post.find({ user: req.user.id })
         .sort({ date: -1 })
         .then(posts => {
             return res.json(posts)
