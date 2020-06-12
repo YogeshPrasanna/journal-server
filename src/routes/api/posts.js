@@ -92,10 +92,11 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), (req, res) 
                 },
                 postHashtags: [...req.body.postHashtags],
                 memorablePost: req.body.memorablePost,
+                postDate: req.body.postDate
             }
 
             post.updateOne(updatedPost).then(() => {
-                return res.json({ success: true })
+                return res.json({ ...post._doc, ...updatedPost })
             }).catch(err => res.status(404).json({ postNotFound: "Post not found or updated" }))
 
         })
