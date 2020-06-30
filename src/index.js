@@ -49,5 +49,5 @@ app.get('/', requireAuth, (req, res) => {
 
 const port = process.env.portNum;
 app.listen(port || 5000, () => {
-    console.log('listenting on port 5000')
+    console.log(`App is running on port ${port}`);
 })
