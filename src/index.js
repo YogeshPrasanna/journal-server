@@ -48,7 +48,8 @@ app.get('/', requireAuth, (req, res) => {
     res.send(`Your email is: ${req.user.email}`)
 });
 
-
-app.listen(process.env.PORT || 5000, () => {
-    console.log(`App is running on port ${port}`);
+var server_port = process.env.YOUR_PORT || process.env.PORT || 5000;
+var server_host = process.env.YOUR_HOST || '0.0.0.0';
+app.listen(server_port, server_host, () => {
+    console.log(`App is running on port ${port}`, app.get('env'));
 })
