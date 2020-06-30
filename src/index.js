@@ -15,6 +15,7 @@ const app = express();
 // const port = process.env.PORT || 3000;
 require('dotenv').config();
 
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use('/api/users', users)
@@ -46,6 +47,7 @@ app.get('/', requireAuth, (req, res) => {
     res.send(`Your email is: ${req.user.email}`)
 });
 
-app.listen(5000, () => {
+const port = process.env.portNum;
+app.listen(port || 5000, () => {
     console.log('listenting on port 5000')
 })
