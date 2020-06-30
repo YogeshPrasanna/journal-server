@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport')
+const cors = require('cors')
 
 const users = require(`./routes/api/users`)
 const profile = require(`./routes/api/profile`)
@@ -33,7 +34,7 @@ mongoose.connect(mongoUri, {
     useCreateIndex: true
 });
 
-
+app.use(cors())
 
 mongoose.connection.on('connected', () => {
     console.log("Connected to mongo instance")
