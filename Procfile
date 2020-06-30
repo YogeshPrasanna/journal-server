@@ -1,2 +1,2 @@
-web: npm run dev
-worker: node src/index.js
+web: node index.js
+worker: node index.js
