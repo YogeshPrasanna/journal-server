@@ -51,5 +51,5 @@ app.get('/', requireAuth, (req, res) => {
 var server_port = process.env.PORT || 5000;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
 app.listen(server_port, server_host, () => {
-    console.log(`App is running on port ${port}`, app.get('env'));
+    console.log(`App is running on port ${server_port} and host being ${server_host}`, app.get('env'));
 })
