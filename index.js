@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport')
 const cors = require('cors')
+const path = require('path');
 
 const users = require(`./routes/api/users`)
 const profile = require(`./routes/api/profile`)
@@ -47,6 +48,14 @@ mongoose.connection.on('error', (err) => {
 app.get('/', requireAuth, (req, res) => {
     res.send(`Your email is: ${req.user.email}`)
 });
+
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public/index.html'), function (err) {
+        if (err) {
+            res.status(500).send(err)
+        }
+    })
+})
 
 var server_port = process.env.PORT || 5000;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
